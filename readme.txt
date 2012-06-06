@@ -16,7 +16,7 @@ TrekkSoft is *the* online booking solution for tour operators & activity provide
 
 == Installation ==
 
-1. Upload `trekksoft.zip` to the `/wp-content/plugins/` directory and unpack it or search for `trekksoft` one the *Install Plugins* page.
+1. Upload `trekksoft.zip` to the `/wp-content/plugins/` directory and unpack it or search for `trekksoft` on the *Install Plugins* page.
 1. Activate the plugin through the *Plugins* menu
 1. Configure the plugin through the new *TrekkSoft* menu
 
