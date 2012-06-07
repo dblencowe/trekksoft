@@ -69,7 +69,8 @@
                     </div>  
                     
                     <div class="stuffbox">
-                        <h3>Usage</h3>
+                        <h3>Use</h3>
+                        
                         <div class="inside">
                             <p>Use the short code <code>trekksoft</code> to integrate an iframe on any of your pages.</p>
                             <p>The following options are available:</p>
@@ -82,7 +83,7 @@
                                     </tr>
                                     <tr valign="top">
                                         <td><strong><code>tour_id</code></strong></td>
-                                        <td>If <code>type</code> is <code>tour</code>, this option must be the numeric ID of the tour you want to integrate.</td>
+                                        <td>If <code>type</code> is <code>tour_booking</code>, this option must be the numeric ID of the tour you want to integrate.</td>
                                     </tr>
                                     <tr valign="top">
                                         <td><strong><code>category_id</code></strong></td>
@@ -104,7 +105,7 @@
                             <br>
                             
                             <p>
-                                Example: <code>[trekksoft type="tour" tour_id="4331" width="720px" height="800px"]</code>
+                                Example: <code>[trekksoft type="tour_booking" tour_id="4331" width="720px" height="800px"]</code>
                             </p>
                         </div>
                     </div>
