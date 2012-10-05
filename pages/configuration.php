@@ -4,7 +4,7 @@
             <img width="109" height="38" src="<?php echo WP_PLUGIN_URL . '/trekksoft/logo.png'; ?>" alt="TrekkSoft Logo" title="TrekkSoft Logo">
         </div>
         
-        <h2>TrekkSoft + Wordpress = Awesomesauce</h2>
+        <h2>TrekkSoft Wordpress Plugin</h2>
         
         <?php if (isset($_POST['trekksoft_account'])): ?>
             <div class="update-nag">
@@ -55,6 +55,11 @@
                                             <label for="trekksoft_lang_de" class="selectit">
                                                 <input type="radio" id="trekksoft_lang_es" name="trekksoft_lang" value="es"<?php if ('es' === $this->getLanguage()): ?> checked<?php endif; ?>>
                                                 Spanish
+                                            </label>
+                                            <br>
+                                            <label for="trekksoft_lang_de" class="selectit">
+                                                <input type="radio" id="trekksoft_lang_it" name="trekksoft_lang" value="it"<?php if ('it' === $this->getLanguage()): ?> checked<?php endif; ?>>
+                                                Italian
                                             </label>
                                             
                                             <p>

@@ -38,15 +38,14 @@ class TrekkSoft
      */
     public function onEnqueueScripts()
     {
-        wp_register_script(
-            'trekksoft_api',
-            sprintf(
-                'http://%s.trecksoft.%s/%s/api/public', 
-                $this->getAccountName(),
-                isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ? 'dev' : 'com', 
-                $this->getLanguage()
-            )
+        $url = sprintf(
+            'http://%s.trekksoft.%s/%s/api/public', 
+            $this->getAccountName(),
+            isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ? 'dev' : 'com', 
+            $this->getLanguage()
         );
+        
+        wp_register_script('trekksoft_api', $url);
         wp_enqueue_script('trekksoft_api');
     }
     
