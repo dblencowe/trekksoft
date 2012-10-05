@@ -3,7 +3,7 @@
 Plugin Name: TrekkSoft
 Plugin URI: http://wordpress.org/extend/plugins/trekksoft
 Description: This plugin allows you to integrate the TrekkSoft booking solution into your Wordpress site.
-Version: 0.9.7
+Version: 0.9.8
 Author: TrekkSoft AG
 Author URI: http://www.trekksoft.com
 License: GPL2
@@ -113,17 +113,17 @@ CODE;
         }
         
         if ($args === false) {
-            echo '<p>Failed to render the TrekkSoft smart code: The <code>type</code> option is invalid.</p>';
-        } else {
-            $code .= <<<CODE
+            return '<p>Failed to render the TrekkSoft smart code: The <code>type</code> option is invalid.</p>';
+        }
+        
+        $code .= <<<CODE
               .render("#%s");
     })();
 </script>
 CODE;
             
-            $args[] = $id;
-            vprintf($code, $args);
-        }
+        $args[] = $id;
+        return vsprintf($code, $args);
 	}
 
 
