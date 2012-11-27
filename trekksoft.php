@@ -3,7 +3,7 @@
 Plugin Name: TrekkSoft
 Plugin URI: http://wordpress.org/extend/plugins/trekksoft
 Description: This plugin allows you to integrate the TrekkSoft booking solution into your Wordpress site.
-Version: 0.9.8
+Version: 0.9.9
 Author: TrekkSoft AG
 Author URI: http://www.trekksoft.com
 License: GPL2
@@ -62,6 +62,7 @@ class TrekkSoft
                 'category_id' => 0,
                 'width'       => '720px',
                 'height'      => '600px',
+                'referral'    => '',
             ),
             $options
         );
@@ -77,6 +78,7 @@ class TrekkSoft
         iframe.setAttrib("width", "%s")
               .setAttrib("height", "%s")
               .setAttrib("entryPoint", "%s")
+
 CODE;
         
         $args = array(
@@ -98,6 +100,20 @@ CODE;
                 $args[] = $options['tour_id'];
                 break;
             
+            case 'tour_details':
+                $code .= '              .setAttrib("tourId", %d)' . PHP_EOL;
+                
+                $args[] = 'tour_details';
+                $args[] = $options['tour_id'];
+                break;
+            
+            case 'tour_vouchers':
+                $code .= '              .setAttrib("tourId", %d)' . PHP_EOL;
+                
+                $args[] = 'tour_vouchers';
+                $args[] = $options['tour_id'];
+                break;
+            
             case 'shop':
                 $args[] = 'shop';
                 
@@ -116,6 +132,11 @@ CODE;
             return '<p>Failed to render the TrekkSoft smart code: The <code>type</code> option is invalid.</p>';
         }
         
+        if (!empty($options['referral'])) {
+            $code .= '              .setAttrib("referral", "%s")' . PHP_EOL;
+            $args[] = $options['referral'];
+        }
+        
         $code .= <<<CODE
               .render("#%s");
     })();
@@ -123,6 +144,7 @@ CODE;
 CODE;
             
         $args[] = $id;
+        
         return vsprintf($code, $args);
 	}
 

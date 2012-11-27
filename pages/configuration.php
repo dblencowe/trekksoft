@@ -84,7 +84,11 @@
                                 <tbody>
                                     <tr valign="top">
                                         <td><strong><code>type</code></strong></td>
-                                        <td>Must either be <code>tours</code> (tours overview), <code>tour_booking</code> (tour booking) or <code>shop</code> (shop items overview).</td>
+                                        <td>
+                                            Must either be <code>tours</code> (tours overview), <code>tour_booking</code>
+                                            (tour booking), <code>tour_details</code> (tour details) or <code>shop</code>
+                                            (shop items overview).
+                                        </td>
                                     </tr>
                                     <tr valign="top">
                                         <td><strong><code>tour_id</code></strong></td>
@@ -93,6 +97,10 @@
                                     <tr valign="top">
                                         <td><strong><code>category_id</code></strong></td>
                                         <td>If <code>type</code> is <code>shop</code>, this option can optionally be set to show a specific shop category.</td>
+                                    </tr>
+                                    <tr valign="top">
+                                        <td><strong><code>referral</code></strong></td>
+                                        <td>This option can optionally be set to associate made bookings with an agent. The expected value is the name of the agent.</td>
                                     </tr>
                                     <tr valign="top">
                                         <td><strong><code>width</code></strong></td>
@@ -110,7 +118,7 @@
                             <br>
                             
                             <p>
-                                Example: <code>[trekksoft type="tour_booking" tour_id="4331" width="720px" height="800px"]</code>
+                                Example: <code>[trekksoft type="tour_booking" tour_id="4331" width="720px" height="800px" referral="john312"]</code>
                             </p>
                         </div>
                     </div>
