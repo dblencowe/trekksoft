@@ -3,7 +3,7 @@
 Plugin Name: TrekkSoft
 Plugin URI: http://wordpress.org/extend/plugins/trekksoft
 Description: This plugin allows you to integrate the TrekkSoft booking solution into your Wordpress site.
-Version: 0.9.9
+Version: 0.9.10
 Author: TrekkSoft AG
 Author URI: http://www.trekksoft.com
 License: GPL2
@@ -39,9 +39,8 @@ class TrekkSoft
     public function onEnqueueScripts()
     {
         $url = sprintf(
-            'http://%s.trekksoft.%s/%s/api/public', 
+            'http://%s.trekksoft.com/%s/api/public', 
             $this->getAccountName(),
-            isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ? 'dev' : 'com', 
             $this->getLanguage()
         );
         

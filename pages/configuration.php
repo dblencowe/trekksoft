@@ -47,17 +47,22 @@
                                                 English
                                             </label>
                                             <br>
+                                            <label for="trekksoft_lang_en_AU" class="selectit">
+                                                <input type="radio" id="trekksoft_lang_en_AU" name="trekksoft_lang" value="en_AU"<?php if ('en_AU' === $this->getLanguage()): ?> checked<?php endif; ?>>
+                                                Australian English
+                                            </label>
+                                            <br>
                                             <label for="trekksoft_lang_de" class="selectit">
                                                 <input type="radio" id="trekksoft_lang_de" name="trekksoft_lang" value="de"<?php if ('de' === $this->getLanguage()): ?> checked<?php endif; ?>>
                                                 German
                                             </label>
                                             <br>
-                                            <label for="trekksoft_lang_de" class="selectit">
+                                            <label for="trekksoft_lang_es" class="selectit">
                                                 <input type="radio" id="trekksoft_lang_es" name="trekksoft_lang" value="es"<?php if ('es' === $this->getLanguage()): ?> checked<?php endif; ?>>
                                                 Spanish
                                             </label>
                                             <br>
-                                            <label for="trekksoft_lang_de" class="selectit">
+                                            <label for="trekksoft_lang_it" class="selectit">
                                                 <input type="radio" id="trekksoft_lang_it" name="trekksoft_lang" value="it"<?php if ('it' === $this->getLanguage()): ?> checked<?php endif; ?>>
                                                 Italian
                                             </label>
