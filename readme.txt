@@ -22,6 +22,7 @@ TrekkSoft is *the* online booking solution for tour operators & activity provide
 
 == Screenshots ==
 
+1. Tours List
 1. Calendar
 1. Booking
 
