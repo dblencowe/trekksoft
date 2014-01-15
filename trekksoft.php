@@ -1,9 +1,12 @@
 <?php
+include 'vendor/autoload.php';
+use TrekkSoft\Widget\Generator as WidgetGenerator;
+
 /*
 Plugin Name: TrekkSoft
 Plugin URI: http://wordpress.org/extend/plugins/trekksoft
 Description: This plugin allows you to integrate the TrekkSoft booking solution into your Wordpress site.
-Version: 0.9.10
+Version: 0.9.11
 Author: TrekkSoft AG
 Author URI: http://www.trekksoft.com
 License: GPL2
@@ -38,113 +41,33 @@ class TrekkSoft
      */
     public function onEnqueueScripts()
     {
-        $url = sprintf(
-            'http://%s.trekksoft.com/%s/api/public', 
-            $this->getAccountName(),
-            $this->getLanguage()
-        );
-        
-        wp_register_script('trekksoft_api', $url);
+        wp_register_script('trekksoft_api', $this->getTargetUrl());
         wp_enqueue_script('trekksoft_api');
     }
-    
+
+    public function getTargetUrl()
+    {
+        return '//'.$this->getHost().'/'.$this->getLanguage().'/api/public';
+    }
+
+    public function getHost()
+    {
+        return $this->getAccountName().'.trekksoft.'.($_SERVER['REMOTE_ADDR'] == '127.0.0.1' ? 'dev' : 'com');
+    }
 
     /**
      * @param array|string $options
      */
     public function parseShortCode($options)
 	{
+        $generator = new WidgetGenerator();
+        //var_dump($generator->getDefaultOptions());die();
         $options = shortcode_atts(
-            array(
-                'type'        => 'tours',
-                'tour_id'     => 0,
-                'category_id' => 0,
-                'width'       => '720px',
-                'height'      => '600px',
-                'referral'    => '',
-            ),
+            $generator->getDefaultOptions()+array('language'=>$this->getLanguage()),
             $options
         );
-        
-        $id = 'trekksoft_' . mt_rand(1000, 9999);
-        
-        $code = <<<CODE
-<div id="%s">Loading TrekkSoft booking engine, please wait ...</div>
 
-<script>
-    (function() {
-        var iframe = new TrekkSoft.Embed.Iframe();
-        iframe.setAttrib("width", "%s")
-              .setAttrib("height", "%s")
-              .setAttrib("entryPoint", "%s")
-
-CODE;
-        
-        $args = array(
-            $id,
-            $options['width'],
-            $options['height'],
-        );
-        
-        switch ($options['type'])
-        {
-            case 'tours':
-                $args[] = 'tours';
-                break;
-            
-            case 'tour_booking':
-                $code .= '              .setAttrib("tourId", %d)' . PHP_EOL;
-                
-                $args[] = 'tour';
-                $args[] = $options['tour_id'];
-                break;
-            
-            case 'tour_details':
-                $code .= '              .setAttrib("tourId", %d)' . PHP_EOL;
-                
-                $args[] = 'tour_details';
-                $args[] = $options['tour_id'];
-                break;
-            
-            case 'tour_vouchers':
-                $code .= '              .setAttrib("tourId", %d)' . PHP_EOL;
-                
-                $args[] = 'tour_vouchers';
-                $args[] = $options['tour_id'];
-                break;
-            
-            case 'shop':
-                $args[] = 'shop';
-                
-                if ($options['category_id'] > 0) {
-                    $code .= '              .setAttrib("categoryId", %d)' . PHP_EOL;
-                    $args[] = $options['category_id'];
-                }
-                break;
-            
-            default:
-                $args = false;
-                break;
-        }
-        
-        if ($args === false) {
-            return '<p>Failed to render the TrekkSoft smart code: The <code>type</code> option is invalid.</p>';
-        }
-        
-        if (!empty($options['referral'])) {
-            $code .= '              .setAttrib("referral", "%s")' . PHP_EOL;
-            $args[] = $options['referral'];
-        }
-        
-        $code .= <<<CODE
-              .render("#%s");
-    })();
-</script>
-CODE;
-            
-        $args[] = $id;
-        
-        return vsprintf($code, $args);
+        return $generator->generateEmbedCode($this->getHost(), $options);
 	}
 
 
