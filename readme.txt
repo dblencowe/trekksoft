@@ -3,8 +3,8 @@
 Contributors: trekksoft
 Tags: booking, reservation, payment, outdoor, tour, tours, activity, activities, sports, trekking
 Requires at least: 2.0.2
-Tested up to: 3.5.1
-Stable tag: 0.9.10
+Tested up to: 3.8
+Stable tag: 0.9.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,6 +26,9 @@ TrekkSoft is *the* online booking solution for tour operators & activity provide
 1. Booking
 
 == Changelog ==
+
+= 0.9.11 =
+* Updated to support new booking engine: better design and functionality.
 
 = 0.9.10 =
 * Added Australian English language support.

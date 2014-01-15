@@ -1,7 +1,4 @@
 <?php
-include 'vendor/autoload.php';
-use TrekkSoft\Widget\Generator as WidgetGenerator;
-
 /*
 Plugin Name: TrekkSoft
 Plugin URI: http://wordpress.org/extend/plugins/trekksoft
@@ -11,6 +8,8 @@ Author: TrekkSoft AG
 Author URI: http://www.trekksoft.com
 License: GPL2
 */
+include 'vendor/autoload.php';
+use TrekkSoft\Widget\Generator as WidgetGenerator;
 
 class TrekkSoft
 {
