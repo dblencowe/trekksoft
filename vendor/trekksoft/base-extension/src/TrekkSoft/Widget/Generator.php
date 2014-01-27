@@ -7,12 +7,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace TrekkSoft\Widget;
-
-class Generator
+class TrekkSoft_Widget_Generator
 {
     const ENDPOINT_PATH = '/api/public';
-    
+
     const LOGO_WIDTH    = 140;
     const LOGO_HEIGHT   = 30;
 
@@ -20,22 +18,23 @@ class Generator
     const TARGET_POPUP  = 'popup';
     const TARGET_WINDOW = 'window';
     const TARGET_URL    = 'url';
+    const TARGET_NORMAL = 'normal';
     const TARGET_SELF   = 'self';
-    
+
     const ENTRY_TOURS_OVERVIEW       = 'tours';
     const ENTRY_TOUR_FINDER          = 'tour_finder';
     const ENTRY_TOUR_DETAILS         = 'tour_details';
     const ENTRY_TOUR_BOOKING         = 'tour';
     const ENTRY_TOUR_VOUCHER_BOOKING = 'tour_vouchers';
     const ENTRY_SHOP                 = 'shop';
-    
+
     const BUTTON_TYPE_LOGO = 'logo';
     const BUTTON_TYPE_TEXT = 'button';
-    
+
     const BUTTON_LOGO_PATH = '/widget/book-logo.png';
     const BUTTON_TEXT_PATH = '/widget/book-button.png';
-    
-    
+
+
     /**
      * @param array $options
      * @return string
@@ -45,15 +44,15 @@ class Generator
         $options += $this->getDefaultOptions();
         $params = $this->getEntryPointParams($options['type'], $options, false);
 
-        $settings = array_map(
-            function($key, $value) {
-                return $key . '="' . $value . '"';
-            },
-            array_keys($params),
-            array_values($params)
-        );
+        $settings = '';
+        foreach($params as $key=>$value) {
+            if (!empty($settings)) {
+                $settings .= ' ';
+            }
+            $settings .= $key.'="'.$value.'"';
+        }
 
-        return '[trekksoft ' . join(' ', $settings) . ']';
+        return '[trekksoft ' . $settings . ']';
     }
 
 
@@ -61,7 +60,7 @@ class Generator
      * @param string $host
      * @param array $options
      * @return string
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function generateEmbedCode($host, array $options = array())
     {
@@ -70,7 +69,7 @@ class Generator
             $entryPoint = $options['type'];
 
             if (empty($host)) {
-                throw new \InvalidArgumentException('Please provide the base URL.');
+                throw new InvalidArgumentException('Please provide the base URL.');
             }
 
             $baseUrl = '//' . trim($host, '/') . '/' . $options['language'];
@@ -99,16 +98,14 @@ class Generator
 
                 if ($options['target'] === self::TARGET_SELF) {
                     $targetAttr = ' target="_self"';
-                } elseif ($options['target'] === self::TARGET_WINDOW) {
-                    $targetAttr = ' target="_blank"';
-                } elseif ($options['target'] === self::TARGET_URL) {
+                } elseif ($options['target'] === self::TARGET_URL || $options['target'] === self::TARGET_NORMAL) {
                     return $targetUrl;
                 }
             }
 
             $buttonUrl = $baseUrl
-                       . ($options['button_type'] == self::BUTTON_TYPE_LOGO ? self::BUTTON_LOGO_PATH : self::BUTTON_TEXT_PATH)
-                       . '?caption=' . urlencode($options['button_label']);
+                    . ($options['button_type'] == self::BUTTON_TYPE_LOGO ? self::BUTTON_LOGO_PATH : self::BUTTON_TEXT_PATH)
+                    . '?caption=' . urlencode($options['button_label']);
 
             if (!empty($options['button_fg_color'])) {
                 $buttonUrl .= '&foreColor=' . substr($options['button_fg_color'], 1);
@@ -118,7 +115,7 @@ class Generator
                 $buttonUrl .= '&backColor=' . substr($options['button_bg_color'], 1);
             }
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return '<b>Widget Integration Problem</b>: '.$e->getMessage();
         }
 
@@ -129,7 +126,7 @@ class Generator
             $buttonUrl,
             $options['button_label'],
             $options['button_label'],
-            PHP_EOL . PHP_EOL . $code
+                PHP_EOL . PHP_EOL . $code
         );
     }
 
@@ -160,25 +157,44 @@ class Generator
      * @param string $entryPoint
      * @param array $options
      * @return string
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function getEntryPointURLPathWithQueryParams($entryPoint, array $options)
     {
+        $urlPrefix = '/widget/';
+        if (isset($options['target'])) {
+            if ($options['target']===self::TARGET_NORMAL) {
+                $urlPrefix = '/';
+            }
+        }
+
         switch ($entryPoint)
         {
-            case self::ENTRY_TOURS_OVERVIEW       : $url = '/widget/tours/list';            break;
-            case self::ENTRY_TOUR_FINDER          : $url = '/widget/tours/finder';          break;
-            case self::ENTRY_SHOP                 : $url = '/widget/shop';                  break;
-            case self::ENTRY_TOUR_DETAILS         : $url = '/widget/tours/';                break;
-            case self::ENTRY_TOUR_BOOKING         : $url = '/widget/tours/book/';           break;
-            case self::ENTRY_TOUR_VOUCHER_BOOKING : $url = '/widget/tours/book-vouchers/';  break;
-            default: throw new \InvalidArgumentException("Unsupported entry point '$entryPoint'.");
+            case self::ENTRY_TOURS_OVERVIEW       : $url = $urlPrefix.'tours/list';            break;
+            case self::ENTRY_TOUR_FINDER          : $url = $urlPrefix.'tours/finder';          break;
+            case self::ENTRY_SHOP                 : $url = $urlPrefix.'shop';                  break;
+            case self::ENTRY_TOUR_DETAILS         : $url = $urlPrefix.'tours/';                break;
+            case self::ENTRY_TOUR_BOOKING         : $url = $urlPrefix.'tours/book/';           break;
+            case self::ENTRY_TOUR_VOUCHER_BOOKING : $url = $urlPrefix.'tours/book-vouchers/';  break;
+            default: throw new InvalidArgumentException("Unsupported entry point '$entryPoint'.");
         }
 
         $params = $this->getEntryPointParams($entryPoint, $options);
         unset($params['target'], $params['entryPoint']);
 
-        return $url . '?' . http_build_query($params, '=', '&amp;');
+        if (isset($params['tourId'])) {
+            $lastChar = substr($url, -1, 1);
+            if ($lastChar==='/') { //safety check
+                $url .= $params['tourId'];
+                unset($params['tourId']);
+            }
+        }
+
+        if ($params) {
+            $url .= '?' . http_build_query($params, '=', '&amp;');
+        }
+
+        return $url;
     }
 
 
@@ -187,8 +203,9 @@ class Generator
      *
      * @param string $entryPoint
      * @param array $options
+     * @param boolean $useMapping
      * @return array
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function getEntryPointParams($entryPoint, array $options, $useMapping=true)
     {
@@ -225,7 +242,7 @@ class Generator
         $options['type'] = $entryPoint;
         foreach ($required as $key) {
             if (empty($options[$key])) {
-                throw new \InvalidArgumentException("The option '$key' is required for the entry point '$entryPoint'.");
+                throw new InvalidArgumentException("The option '$key' is required for the entry point '$entryPoint'.");
             }
         }
 
@@ -259,7 +276,7 @@ class Generator
 
         return $filteredParams;
     }
-    
+
 
     /**
      * @param string $code
@@ -276,7 +293,7 @@ class Generator
             '    })();',
             '</script>',
         );
-        
+
         $lines = array();
         foreach (explode(PHP_EOL, $code) as $line) {
             $lines[] = "        $line";
@@ -284,11 +301,11 @@ class Generator
 
         return sprintf(
             join(PHP_EOL, $tpl),
-            $baseUrl . self::ENDPOINT_PATH,
+                $baseUrl . self::ENDPOINT_PATH,
             join(PHP_EOL, $lines)
         );
     }
-    
+
 
     /**
      * @return string
