@@ -3,13 +3,12 @@
 Plugin Name: TrekkSoft
 Plugin URI: http://wordpress.org/extend/plugins/trekksoft
 Description: This plugin allows you to integrate the TrekkSoft booking solution into your Wordpress site.
-Version: 0.9.12
+Version: 0.10.0
 Author: TrekkSoft AG
 Author URI: http://www.trekksoft.com
 License: GPL2
 */
-include 'vendor/autoload.php';
-use TrekkSoft\Widget\Generator as WidgetGenerator;
+require dirname(__FILE__).'/vendor/autoload_52.php';
 
 class TrekkSoft
 {
@@ -59,7 +58,7 @@ class TrekkSoft
      */
     public function parseShortCode($options)
 	{
-        $generator = new WidgetGenerator();
+        $generator = new TrekkSoft_Widget_Generator();
         //var_dump($generator->getDefaultOptions());die();
         $options = shortcode_atts(
             $generator->getDefaultOptions()+array('language'=>$this->getLanguage()),

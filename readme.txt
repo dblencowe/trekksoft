@@ -28,8 +28,11 @@ TrekkSoft is *the* online booking solution for tour operators & activity provide
 
 == Changelog ==
 
+= 0.10.0 =
+* Updated for backwards compatibility with PHP5.2+
+
 = 0.9.12 =
-* Updated for backwards compatibility with PHP5.1+
+* Improvements of the integration proccess
 
 = 0.9.11 =
 * Updated to support new booking engine: better design and functionality.
