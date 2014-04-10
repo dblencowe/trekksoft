@@ -78,6 +78,18 @@ class TrekkSoft_Widget_Generator
             $targetAttr = '';
             $code       = '';
 
+            $buttonUrl = $baseUrl
+                . ($options['button_type'] == self::BUTTON_TYPE_LOGO ? self::BUTTON_LOGO_PATH : self::BUTTON_TEXT_PATH)
+                . '?caption=' . urlencode($options['button_label']);
+
+            if (!empty($options['button_fg_color'])) {
+                $buttonUrl .= '&foreColor=' . substr($options['button_fg_color'], 1);
+            }
+
+            if (!empty($options['button_bg_color'])) {
+                $buttonUrl .= '&backColor=' . substr($options['button_bg_color'], 1);
+            }
+
             if ($options['target'] == self::TARGET_FANCY) {
                 $tpl   = array();
                 $tpl[] = 'var button = new TrekkSoft.Embed.Button();';
@@ -98,22 +110,24 @@ class TrekkSoft_Widget_Generator
 
                 if ($options['target'] === self::TARGET_SELF) {
                     $targetAttr = ' target="_self"';
-                } elseif ($options['target'] === self::TARGET_URL || $options['target'] === self::TARGET_NORMAL) {
-                    return $targetUrl;
+                } elseif($options['target'] === self::TARGET_WINDOW){
+                    $targetAttr = ' target="_blank"';
+                } elseif ($options['target'] === self::TARGET_NORMAL) {
+                    return sprintf(
+                        '<a target="_self" href="%s" id="%s"><img src="%s" alt="%s" title="%s" border="0" /></a>%s',
+                        $targetUrl,
+                        $options['element_id'],
+                        $buttonUrl,
+                        $options['button_label'],
+                        $options['button_label'],
+                        PHP_EOL . PHP_EOL . $code
+                    );
+                } elseif ($options['target'] === self::TARGET_URL) {
+                    return 'https:' . $targetUrl;
                 }
             }
 
-            $buttonUrl = $baseUrl
-                    . ($options['button_type'] == self::BUTTON_TYPE_LOGO ? self::BUTTON_LOGO_PATH : self::BUTTON_TEXT_PATH)
-                    . '?caption=' . urlencode($options['button_label']);
 
-            if (!empty($options['button_fg_color'])) {
-                $buttonUrl .= '&foreColor=' . substr($options['button_fg_color'], 1);
-            }
-
-            if (!empty($options['button_bg_color'])) {
-                $buttonUrl .= '&backColor=' . substr($options['button_bg_color'], 1);
-            }
 
         } catch (Exception $e) {
             return '<b>Widget Integration Problem</b>: '.$e->getMessage();
@@ -126,7 +140,7 @@ class TrekkSoft_Widget_Generator
             $buttonUrl,
             $options['button_label'],
             $options['button_label'],
-                PHP_EOL . PHP_EOL . $code
+            PHP_EOL . PHP_EOL . $code
         );
     }
 
@@ -301,7 +315,7 @@ class TrekkSoft_Widget_Generator
 
         return sprintf(
             join(PHP_EOL, $tpl),
-                $baseUrl . self::ENDPOINT_PATH,
+            $baseUrl . self::ENDPOINT_PATH,
             join(PHP_EOL, $lines)
         );
     }
