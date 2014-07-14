@@ -35,17 +35,17 @@
     },
     {
         "name": "trekksoft/base-extension",
-        "version": "1.0.12",
-        "version_normalized": "1.0.12.0",
+        "version": "1.0.13",
+        "version_normalized": "1.0.13.0",
         "source": {
             "type": "git",
             "url": "git@bitbucket.org:trekksoft/base-extension",
-            "reference": "05fc1c90493705ac0541965b27d3e914c9c4214d"
+            "reference": "cbec9390ab7e45f474c677f2b69bfc571f1e4755"
         },
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2014-07-14 13:31:22",
+        "time": "2014-07-14 15:31:35",
         "type": "library",
         "installation-source": "source",
         "autoload": {
