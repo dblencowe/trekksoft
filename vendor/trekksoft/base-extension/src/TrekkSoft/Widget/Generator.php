@@ -229,7 +229,8 @@ class TrekkSoft_Widget_Generator
             'button_label',
             'button_type',
             'button_bg_color',
-            'button_fg_color'
+            'button_fg_color',
+            'language'
         );
 
         switch ($entryPoint)

@@ -6,7 +6,7 @@
         
         <h2>TrekkSoft Wordpress Plugin</h2>
         
-        <?php if (isset($_POST['trekksoft_account'])): ?>
+        <?php if (isset($_POST['trekksoft_account']) || isset($_POST['trekksoft_primary_domain'])): ?>
             <div class="update-nag">
                 Successfully saved settings.
             </div>
@@ -35,13 +35,33 @@
                         <div class="inside">
                             <table class="form-table">
                                 <tbody>
-                                    <tr valign="top">
-                                        <td style="width: 110px;">TrekkSoft Account:</td>
-                                        <td>http://<input type="text" value="<?php echo $this->getAccountName(); ?>" id="trekksoft_account" tabindex="1" name="trekksoft_account" style="width: 200px;">.trekksoft.com</td>
+                                    <tr>
+                                        <td style="width: 110px;vertical-align:top;">Primary Domain:</td>
+                                        <td style="vertical-align:top;">
+                                            <input type="text" value="<?php echo $this->getPrimaryDomain(); ?>" id="trekksoft_primary_domain" tabindex="1" name="trekksoft_primary_domain" style="width: 200px;" placeholder="(e.g. www.my-domain.com)">
+                                            <p>
+                                                <strong>Attention:</strong>
+                                                Enter the primary domain that is set up for your TrekkSoft website (leave out the http:// or https://). This domain will then be used to generate your widget and will act as the base domain for all links, buttons, etc...in your widget.
+                                                If you enter a domain that is not set up for your TrekkSoft website then the widget will not work. We highly recommend that you use this option so long as you have at least one custom domain set up in your TrekkSoft website.
+                                                You can check to see if a custom domain is set up for your TrekkSoft website by going to the "Manage Domains" section in the admin desk of your TrekkSoft website.
+                                                If, however, you do not have a custom domain set up for your TrekkSoft website then leave this field empty and make sure to enter a value for the "TrekkSoft Account" field which can be found directly below.
+                                            </p>
+                                        </td>
                                     </tr>
-                                    <tr valign="top">
-                                        <td>Language:</td>
-                                        <td>
+                                    <tr>
+                                        <td style="width: 110px;vertical-align:top;">TrekkSoft Account:</td>
+                                        <td style="vertical-align:top;">
+                                            <input type="text" value="<?php echo $this->getAccountName(); ?>" id="trekksoft_account" tabindex="1" name="trekksoft_account" style="width: 200px;" placeholder="(e.g. my-trekksoft-slug)">.trekksoft.com
+                                            <p>
+                                                <strong>Attention:</strong>
+                                                You should ONLY choose this option if you do NOT have a custom domain set up for your TrekkSoft website. In such a case you MUST leave the above "Primary Domain" field empty and be sure to enter a value here for your "TrekkSoft Account".
+                                                The value entered here should be the slug of your TrekkSoft website. The slug is the subdomain part of the TrekkSoft URL without the rest of the url. So for example in example.trekksoft.com the slug part is "example".
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align:top;">Language:</td>
+                                        <td style="vertical-align:top;">
                                             <label for="trekksoft_lang_en" class="selectit">
                                                 <input type="radio" id="trekksoft_lang_en" name="trekksoft_lang" value="en"<?php if ('en' === $this->getLanguage()): ?> checked<?php endif; ?>>
                                                 English
