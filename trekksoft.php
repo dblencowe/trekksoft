@@ -113,7 +113,7 @@ class TrekkSoft
         add_menu_page(
             'TrekkSoft Settings',               // page title
             'TrekkSoft',                        // menu title
-            1,                                  // capability
+            'manage_options',                   // capability
             'trekksoft',                        // menu slug
             array($this, 'renderAdminPage'),    // function
             '',                                 // icon url
