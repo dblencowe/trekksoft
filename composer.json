@@ -1,0 +1,24 @@
+{
+  "name": "trekksoft/trekksoft",
+  "description": "TrekkSoft is the online booking solution for tour operators & activity providers. Please learn more on http://www.trekksoft.com.",
+  "keywords": ["Activities", "activity", "Booking", "outdoor", "payment", "Reservation", "sports", "tour", "tours", "trekking"],
+  "homepage": "https://trekksoft.com",
+  "license": "GPL2",
+  "authors": [
+    {
+      "name": "Trekksoft AG",
+      "email": "info@trekksoft.com",
+      "homepage": "http://www.trekksoft.com"
+    },
+    {
+      "name": "Dave Blencowe",
+      "email": "dblencowe@gmail.com",
+      "homepage": "http://dblencowe.com"
+    }
+  ],
+  "type": "wordpress-plugin",
+  "require": {
+    "php": ">=5.3.2",
+    "composer/installers": "v1.0.6"
+  }
+}
